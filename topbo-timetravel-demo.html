@@ -117,6 +117,18 @@
       color: var(--muted);
       font-size: 13px;
     }
+    .bonus-pool, .winner-list {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      text-align: center;
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
@@ -136,7 +148,7 @@
         <h2>您的专属短视频:</h2>
         <div class="video-container">
           <video id="videoDisplay" controls style="display:none;">
-            <source src="https://r2.xsimple-r2.com/files/5fe4182a3805a0d1590eab15b9c26314.mp4" type="video/mp4">
+            <source src="https://r2.xsimple-r2.com/files/492223/b7d1420b-cc82-4499-9317-1359035e01e3.mp4" type="video/mp4">
             您的浏览器不支持 HTML5 视频标签。
           </video>
         </div>
@@ -145,6 +157,20 @@
           <button class="btn" id="shareBtn">分享至微信</button>
         </div>
       </div>
+
+      <div class="bonus-pool">
+        <h2>奖金池</h2>
+        <p>当前奖金池金额：<span id="bonusAmount">¥5000</span></p>
+      </div>
+
+      <div class="winner-list">
+        <h2>中奖清单</h2>
+        <ul id="winnersList">
+          <li>用户A: ¥100</li>
+          <li>用户B: ¥200</li>
+          <li>用户C: ¥300</li>
+        </ul>
+      </div>
     </div>
 
     <footer class="footer">提示：将此文件命名为 topbo-timetravel-demo.html 并放入仓库根目录。访问：https://你的用户名.github.io/topbo-timetravel-demo.html</footer>
@@ -152,8 +178,8 @@
 
   <script>
     // 模拟用户数据
-    const userName = "张三";  // 用户姓名
-    const daysSince = 30; // 距离上次消费的天数
+    const userName = "张三";   // 用户姓名
+    const daysSince = 30;      // 距离上次消费的天数
 
     // 更新用户信息
     document.getElementById("userName").textContent = userName;
@@ -173,10 +199,7 @@
         return;
       }
 
-      // 这里生成专属短视频的逻辑
-      // （模拟生成 或 调用后台接口）
-
-      // 显示短视频（模拟简称为“你的专属短视频”）
+      // 显示短视频
       videoDisplay.style.display = 'block';
       videoDisplay.play();
       resultDiv.style.display = 'block';
