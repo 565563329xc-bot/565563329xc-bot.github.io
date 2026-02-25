@@ -1,326 +1,420 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>滔搏时光旅程 - 最小Demo</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
-            color: #333;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-            overflow: hidden; /* For pseudo-element animation */
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(0,0,255,0.05) 0%, rgba(0,0,255,0) 70%);
-            animation: pulse 5s infinite ease-in-out;
-            opacity: 0;
-            transition: opacity 0.5s ease-out;
-            z-index: 0;
-        }
-        .container.active::before {
-            opacity: 1;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.8) rotate(0deg); opacity: 0.8; }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 0.3; }
-            100% { transform: scale(0.8) rotate(360deg); opacity: 0.8; }
-        }
-
-        h1 {
-            color: #007bff;
-            margin-bottom: 25px;
-            font-size: 2.2em;
-        }
-
-        #startButton {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        #startButton:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
-
-        #displayArea {
-            min-height: 150px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: left;
-            border: 1px solid #e9ecef;
-            line-height: 1.8;
-            transition: background-color 0.5s ease, opacity 0.5s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        #displayArea.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #displayArea p {
-            margin: 8px 0;
-            color: #555;
-        }
-
-        #displayArea strong {
-            color: #007bff;
-        }
-
-        .era-memory {
-            font-style: italic;
-            color: #6c757d;
-            border-left: 3px solid #007bff;
-            padding-left: 10px;
-            margin-left: 5px;
-        }
-
-        #shareBtn {
-            background-color: #17a2b8;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: none; /* Initially hidden */
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
-        }
-
-        #shareBtn:hover {
-            background-color: #138496;
-            transform: translateY(-2px);
-        }
-
-        .footer-info {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #666;
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            max-width: 600px;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        .footer-info div {
-            flex: 1;
-            padding: 0 10px;
-            border-right: 1px solid #ccc;
-        }
-        .footer-info div:last-child {
-            border-right: none;
-        }
-        .footer-info h3 {
-            margin-top: 0;
-            color: #007bff;
-            font-size: 1.1em;
-        }
-        .footer-info ul {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-        }
-        .footer-info li {
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-        }
-        .footer-info .rank-num {
-            background-color: #ffe0b2;
-            color: #fb8c00;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 8px;
-            font-weight: bold;
-            font-size: 0.8em;
-        }
-        .footer-info .prize {
-            margin-left: auto;
-            color: #dc3545;
-            font-weight: bold;
-        }
-        .footer-info .amount {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #28a745;
-        }
-
-        .info-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #444;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>滔搏时光旅程 - Demo</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#6EE7B7;
+      --muted:#9aa4b2;
+      --glass: rgba(255,255,255,0.04);
+    }
+    html,body{height:100%;margin:0;font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;background: radial-gradient(circle at 10% 10%, rgba(110,231,183,0.06), transparent 8%), linear-gradient(180deg, #071026 0%, #071226 100%);color:#e6eef6;}
+    .wrap{max-width:1100px;margin:28px auto;padding:20px;display:grid;grid-template-columns: 1fr 360px;gap:18px;}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 6px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);}
+    .hero{grid-column:1/-1;display:flex;gap:18px;align-items:center;padding:22px;}
+    .time-machine{flex:1;background:linear-gradient(180deg, rgba(11,20,34,0.6), rgba(6,12,20,0.6));padding:22px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);}
+    h1{margin:0 0 8px 0;font-size:20px;letter-spacing:0.6px;}
+    p.lead{margin:0;color:var(--muted);}
+    .controls{display:flex;gap:10px;margin-top:14px;align-items:center;}
+    input[type=number], input[type=text]{ background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:10px;border-radius:8px;color:inherit;outline:none;width:160px; }
+    button.btn{background:linear-gradient(90deg,var(--accent),#34d399);border:none;padding:10px 14px;border-radius:8px;color:#05212a;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(52,211,153,0.08);transition: transform 0.2s;}
+    button.btn:active{transform: scale(0.95);}
+    .result{margin-top:18px;display:none;border-top:1px dashed rgba(255,255,255,0.03);padding-top:14px;}
+    .era-title{font-size:18px;margin:0 0 6px 0;}
+    .era-desc{color:var(--muted);margin:0 0 12px 0;}
+    .era-grid{display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:start;}
+    .gallery{display:flex;gap:8px;flex-wrap:wrap;}
+    .gallery img{width:100px;height:70px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.03);}
+    /* 侧边栏 */
+    .sidebar{display:flex;flex-direction:column;gap:12px;}
+    .card-title{font-size:14px;margin:0 0 8px 0;color:#bfead6;}
+    .leaderboard{display:flex;flex-direction:column;gap:8px;}
+    .leaderboard .item{display:flex;justify-content:space-between;padding:8px;background:rgba(255,255,255,0.02);border-radius:8px;font-size:14px;}
+    .stat{font-size:28px;font-weight:700;color:var(--accent);text-align:center;padding:12px 8px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+    /* 消费记录 */
+    .spend-row{display:flex;gap:8px;align-items:center;margin-top:10px;}
+    table{width:100%;border-collapse:collapse;margin-top:10px;}
+    table th, table td{padding:8px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.02);font-size:13px;color:#d8e9ee;}
+    .small-muted{font-size:12px;color:var(--muted);}
+    footer{grid-column:1/-1;margin-top:12px;text-align:center;color:var(--muted);font-size:13px;}
+    .empty-state{color:var(--muted);text-align:center;padding:12px;italic;}
+    @media (max-width:980px){
+      .wrap{grid-template-columns:1fr; padding:12px;}
+      .hero{flex-direction:column;}
+      .era-grid{grid-template-columns:1fr;}
+      .sidebar{flex-direction:row;overflow:auto;padding-bottom:8px;}
+      .sidebar>.panel{min-width:300px;}
+    }
+    @media (max-width:600px){
+      .controls{flex-wrap:wrap;}
+      input[type=number], input[type=text]{width:120px;}
+      .era-grid{gap:8px;}
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="hero panel">
+      <div class="time-machine">
+        <h1>滔搏时光旅程</h1>
+        <p class="lead">输入想回到的年份，点击“开启时光”来探索当年的流行文化与记忆。我会把你在滔博的消费记录也保留下来。</p>
 
-    <div class="container" id="mainContainer">
-        <h1>滔搏时光旅程 - 最小Demo</h1>
-        <p>点击按钮，体验您的专属滔搏时光隧道！</p>
-        <button id="startButton">开启时光旅程</button>
-        <div id="displayArea">
-            <p>等待开启您的独家记忆...</p>
+        <div class="controls">
+          <input id="yearInput" type="number" placeholder="输入年份 (如 1990)" min="1900" max="2023" />
+          <button class="btn" id="startBtn">开启时光</button>
+
+          <div style="flex:1"></div>
+
+          <!-- 消费输入 -->
+          <input id="spendAmount" type="text" placeholder="消费金额 (元)" style="width:120px" />
+          <input id="spendNote" type="text" placeholder="消费说明 (可选)" />
+          <button class="btn" id="recordSpendBtn">记录消费</button>
         </div>
-        <button id="shareBtn">分享到朋友圈/小红书</button>
+
+        <div id="result" class="result">
+          <div class="era-grid">
+            <div>
+              <h2 id="eraTitle" class="era-title">--</h2>
+              <p id="eraDescription" class="era-desc"></p>
+
+              <h3 style="margin:10px 0 6px 0">流行音乐</h3>
+              <p id="musicInfo" class="small-muted"></p>
+
+              <h3 style="margin:10px 0 6px 0">经典电影</h3>
+              <p id="movieInfo" class="small-muted"></p>
+
+              <h3 style="margin:10px 0 6px 0">时尚风格</h3>
+              <p id="fashionInfo" class="small-muted"></p>
+            </div>
+            <div>
+              <div class="gallery" id="gallery"></div>
+              <div style="margin-top:10px;">
+                <button class="btn" id="resetBtn" style="background:#ffb863;color:#2b1300">重置时光机</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 消费记录展示 -->
+        <div id="spendBlock" style="margin-top:12px;">
+          <h3 style="margin:0 0 6px 0">我的消费记录</h3>
+          <div class="small-muted">以下记录保存于本地（页面刷新会丢失，建议后续接入后端或 localStorage）</div>
+          <table id="spendTable">
+            <thead>
+              <tr><th>时间</th><th>金额 (元)</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr id="emptyRow"><td colspan="3" class="empty-state">暂无消费记录</td></tr>
+            </tbody>
+          </table>
+          <div style="display:flex;justify-content:flex-end;margin-top:8px;gap:8px;align-items:center;">
+            <div class="small-muted">总消费：</div>
+            <div id="totalSpend" class="stat">0.00</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="footer-info">
-        <div>
-            <h3>全国集赞排行榜</h3>
-            <ul id="leaderboard">
-                <!-- 排行榜内容将由JS加载 -->
-            </ul>
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+      <div class="panel">
+        <h3 class="card-title">全国集赞排行榜</h3>
+        <div class="leaderboard" id="leaderboard">
+          <!-- sample items -->
         </div>
-        <div>
-            <h3>已发放红包总金额</h3>
-            <p class="amount">￥<span id="totalRedPackets">0</span></p>
-            <p class="info-title">（制造紧迫感和从众心理）</p>
+        <div style="margin-top:10px;" class="small-muted">排行榜模板：用户名 — 获赞数</div>
+      </div>
+
+      <div class="panel">
+        <h3 class="card-title">已发放红包总金额</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div class="small-muted">总金额 (元)</div>
+            <div id="redTotal" class="stat">0.00</div>
+          </div>
+          <div style="min-width:80px;text-align:center;">
+            <button class="btn" id="fakeGrantBtn" style="background:#60a5fa;color:#05212a">模拟发放</button>
+          </div>
         </div>
+        <div style="margin-top:8px;" class="small-muted">模板：显示累计发放红包金额，可与后台数据替换</div>
+      </div>
     </div>
 
-    <script>
-        // 模拟数据（真实项目会从数据库获取）
-        const mockUsers = {
-            "12345": { // 这是一个示例用户ID，实际项目中可能是手机号等
-                name: "张小明",
-                lastPurchaseDate: "2020年9月20日",
-                lastPurchaseItem: "Nike Air Max 270",
-                historicalData: [
-                    { year: 2020, event: "那一年，你还记得奥运会的延期，却点燃了居家运动的热情吗？" },
-                    { year: 2018, event: "世界杯鏖战正酣，绿茵场上的激情是否也曾是你生活的注脚？" },
-                    { year: 2015, event: "《疯狂的麦克斯》上映，废土美学是否也曾启发你的穿搭？" }
-                ]
-            },
-            "67890": {
-                name: "李红",
-                lastPurchaseDate: "2022年4月10日",
-                lastPurchaseItem: "Adidas Ultraboost 21",
-                historicalData: [
-                    { year: 2022, event: "冬季运动热潮来袭，你是否也爱上了冰雪运动？" },
-                    { year: 2021, event: "神舟十二号载人飞船成功发射，我们的征途是星辰大海！" }
-                ]
-            }
-            // 可以添加更多模拟用户数据
-        };
+    <footer>提示：将此文件命名为 topbo-timetravel-demo.html 并放入仓库根目录。访问：https://你的用户名.github.io/topbo-timetravel-demo.html</footer>
+  </div>
 
-        function simulateTimeTravel() {
-            const userId = "12345"; // Demo 固定一个用户ID，实际项目中可能通过扫码或输入获取
-            const user = mockUsers[userId];
+  <script>
+    // ======== 配置项 ========
+    const STORAGE_KEY = {
+      SPEND: 'tp_spend',
+      RED_TOTAL: 'tp_red_total',
+      LEADERBOARD: 'tp_leaderboard'
+    };
 
-            if (!user) {
-                document.getElementById('displayArea').innerHTML = "<p>系统错误：未能找到用户数据。</p>";
-                return;
-            }
+    // ---- 示例年代数据 (可扩展) ----
+    const eraData = {
+      "1980": {
+        title: "1980年代",
+        description: "MTV 时代，合成器音乐与华丽的造型流行。",
+        music: "迈克尔·杰克逊、麦当娜等",
+        movie: "《回到未来》、《ET》",
+        fashion: "夸张的发型、荧光服装、超大肩垫",
+        images: [
+          "https://picsum.photos/300/200?random=1&grayscale",
+          "https://picsum.photos/300/200?random=2&grayscale",
+          "https://picsum.photos/300/200?random=3&grayscale"
+        ]
+      },
+      "1990": {
+        title: "1990年代",
+        description: "网络萌芽，流行文化更加多元。",
+        music: "流行、嘻哈与摇滚并存",
+        movie: "《阿甘正传》、《黑客帝国》",
+        fashion: "宽松牛仔裤、运动品牌流行",
+        images: [
+          "https://picsum.photos/300/200?random=4&grayscale",
+          "https://picsum.photos/300/200?random=5&grayscale",
+          "https://picsum.photos/300/200?random=6&grayscale"
+        ]
+      },
+      "2000": {
+        title: "2000年代",
+        description: "互联网普及，诺基亚和MP3时代。",
+        music: "数字音乐兴起",
+        movie: "《哈利波特》、《指环王》",
+        fashion: "低腰牛仔、运动休闲",
+        images: [
+          "https://picsum.photos/300/200?random=7&grayscale",
+          "https://picsum.photos/300/200?random=8&grayscale",
+          "https://picsum.photos/300/200?random=9&grayscale"
+        ]
+      },
+      "2010": {
+        title: "2010年代",
+        description: "移动互联网与社交媒体改变生活方式。",
+        music: "流媒体主导，很多独立音乐流行",
+        movie: "超级英雄电影崛起",
+        fashion: "简约与混搭并存",
+        images: [
+          "https://picsum.photos/300/200?random=10&grayscale",
+          "https://picsum.photos/300/200?random=11&grayscale",
+          "https://picsum.photos/300/200?random=12&grayscale"
+        ]
+      }
+    };
 
-            // 计算时间差
-            // 将 "2020年9月20日" 转换为 "2020/09/20" 格式以便JS的Date对象解析
-            const formattedDate = user.lastPurchaseDate.replace(/年/g, '/').replace(/月/g, '/').replace(/日/g, '');
-            const lastPurchaseDateTime = new Date(formattedDate);
-            const now = new Date();
-            const diffTime = Math.abs(now - lastPurchaseDateTime);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // ======== DOM 元素 ========
+    const yearInput = document.getElementById('yearInput');
+    const startBtn = document.getElementById('startBtn');
+    const resultDiv = document.getElementById('result');
+    const eraTitle = document.getElementById('eraTitle');
+    const eraDescription = document.getElementById('eraDescription');
+    const musicInfo = document.getElementById('musicInfo');
+    const movieInfo = document.getElementById('movieInfo');
+    const fashionInfo = document.getElementById('fashionInfo');
+    const gallery = document.getElementById('gallery');
+    const resetBtn = document.getElementById('resetBtn');
 
-            // 构建“时空隧道”文本
-            let timeTravelText = `
-                <p>欢迎回来，<strong>${user.name}</strong>！</p>
-                <p>距离你上一次在滔搏消费（<strong>${user.lastPurchaseDate}</strong>，购买了<strong>${user.lastPurchaseItem}</strong>），已经过去了<strong>${diffDays}</strong>天。</p>
-                <p>还记得那年陪你一起买鞋的人吗？那时...</p>
-            `;
+    const recordSpendBtn = document.getElementById('recordSpendBtn');
+    const spendTableBody = document.querySelector('#spendTable tbody');
+    const emptyRow = document.getElementById('emptyRow');
+    const totalSpendEl = document.getElementById('totalSpend');
 
-            // 添加时代记忆
-            user.historicalData.forEach(data => {
-                timeTravelText += `<p class="era-memory"><strong>${data.year}年：</strong> ${data.event}</p>`;
-            });
+    const leaderboardEl = document.getElementById('leaderboard');
+    const redTotalEl = document.getElementById('redTotal');
+    const fakeGrantBtn = document.getElementById('fakeGrantBtn');
 
-            const displayArea = document.getElementById('displayArea');
-            displayArea.innerHTML = timeTravelText;
-            displayArea.classList.add('active'); // 激活内容显示动画
-            document.getElementById('mainContainer').classList.add('active'); // 激活容器动画
-            document.getElementById('shareBtn').style.display = 'block'; // 显示分享按钮
-            document.getElementById('startButton').style.display = 'none'; // 隐藏开始按钮
+    // ======== 状态变量 ========
+    let spendRecords = JSON.parse(localStorage.getItem(STORAGE_KEY.SPEND)) || [];
+    let redTotal = parseFloat(localStorage.getItem(STORAGE_KEY.RED_TOTAL)) || 0;
+    let leaderboardData = JSON.parse(localStorage.getItem(STORAGE_KEY.LEADERBOARD)) || [
+      {name:'小明', likes: 1250},
+      {name:'莉莉', likes: 980},
+      {name:'阿强', likes: 865},
+      {name:'Sandy', likes: 760},
+      {name:'Alex', likes: 620}
+    ];
 
-        }
+    // ======== 工具函数 ========
+    const formatMoney = (num) => Number(num).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const formatDate = (date) => date.toISOString().slice(0, 16).replace('T', ' ');
 
-        function shareToSocialMedia() {
-            // 模拟分享功能
-            // 实际可能生成带有用户ID和内容ID的动态链接
-            const shareLink = `https://565563329xc-bot.github.io/?contentId=${Math.random().toString(36).substring(7)}`;
-            alert(`
-            分享内容已准备就绪！
-            请将以下内容复制到您的朋友圈/小红书：
+    const persist = () => {
+      localStorage.setItem(STORAGE_KEY.SPEND, JSON.stringify(spendRecords));
+      localStorage.setItem(STORAGE_KEY.RED_TOTAL, redTotal.toString());
+      localStorage.setItem(STORAGE_KEY.LEADERBOARD, JSON.stringify(leaderboardData));
+    };
 
-            🎉 我的滔搏时光旅程，太有意思了！
-            #滔搏 #时空穿越 #我的运动时尚回忆
-            快点击链接，你也能拥有专属回忆：
-            ${shareLink}
+    // ======== 渲染函数 ========
+    function renderSpend() {
+      spendTableBody.innerHTML = '';
+      if (spendRecords.length === 0) {
+        emptyRow.style.display = 'table-row';
+        totalSpendEl.textContent = '0.00';
+        return;
+      }
+      emptyRow.style.display = 'none';
+      let total = 0;
+      spendRecords.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${formatDate(new Date(r.time))}</td>
+          <td>${formatMoney(r.amount)}</td>
+          <td>${r.note || ''}</td>
+        `;
+        spendTableBody.appendChild(tr);
+        total += r.amount;
+      });
+      totalSpendEl.textContent = formatMoney(total);
+    }
 
-            (此为Demo模拟提示，无法实际跳转)
-            `);
-            console.log("模拟分享链接:", shareLink);
-        }
+    function renderLeaderboard() {
+      leaderboardEl.innerHTML = '';
+      leaderboardData.forEach((p, idx) => {
+        const item = document.createElement('div');
+        item.className = 'item';
+        item.innerHTML = `<div>${idx+1}. ${p.name}</div><div style="font-weight:700;color:#a8f0d4">${p.likes}</div>`;
+        leaderboardEl.appendChild(item);
+      });
+    }
 
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('startButton').addEventListener('click', simulateTimeTravel);
-            document.getElementById('shareBtn').addEventListener('click', shareToSocialMedia);
+    function renderRedTotal() {
+      redTotalEl.textContent = formatMoney(redTotal);
+    }
 
-            // 模拟排行榜和红包数据显示
-            document.getElementById('leaderboard').innerHTML = `
-                <li><span class="rank-num">1</span> 王** (北京) - 999 赞 <span class="prize">￥1000</span></li>
-                <li><span class="rank-num">2</span> 李** (上海) - 876 赞 <span class="prize">￥500</span></li>
-                <li><span class="rank-num">3</span> 赵** (广州) - 750 赞 <span class="prize">￥200</span></li>
-                <li><span class="rank-num">4</span> 周** (深圳) - 620 赞 </li>
-                <li><span class="rank-num">5</span> 陈** (成都) - 580 赞 </li>
-            `;
-            document.getElementById('totalRedPackets').textContent = "128,500"; // 模拟总金额
-        });
-    </script>
+    // ======== 时光机功能 ========
+    let isTraveling = false;
+    startBtn.addEventListener('click', travelInTime);
+    yearInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !isTraveling) travelInTime();
+    });
+
+    function travelInTime() {
+      if (isTraveling) return;
+      isTraveling = true;
+      const valStr = yearInput.value.trim();
+      if (!valStr) {
+        alert('请输入年份');
+        isTraveling = false;
+        return;
+      }
+      const val = parseInt(valStr);
+      if (!Number.isInteger(val) || val < 1900 || val > 2023) {
+        alert('请输入 1900-2023 之间的有效年份');
+        isTraveling = false;
+        return;
+      }
+
+      // 找到最近的十年键
+      const decade = Math.floor(val / 10) * 10;
+      const key = String(decade);
+      const era = eraData[key] || {
+        title: `${decade}年代`,
+        description: "该年代的资料暂缺，欢迎补充。",
+        music: "暂无",
+        movie: "暂无",
+        fashion: "暂无",
+        images: ["https://via.placeholder.com/300x200/0f1724/6EE7B7?text=NoData"]
+      };
+
+      eraTitle.textContent = `${era.title} （目标年：${val}）`;
+      eraDescription.textContent = era.description;
+      musicInfo.textContent = era.music;
+      movieInfo.textContent = era.movie;
+      fashionInfo.textContent = era.fashion;
+
+      gallery.innerHTML = '';
+      (era.images ?? []).forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = era.title;
+        gallery.appendChild(img);
+      });
+
+      // 显示结果 + 动画
+      resultDiv.style.display = 'block';
+      resultDiv.animate([
+        { opacity: 0, transform: 'translateY(8px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], { duration: 350, easing: 'ease-out' });
+
+      isTraveling = false;
+    }
+
+    resetBtn.addEventListener('click', resetTimeMachine);
+    function resetTimeMachine() {
+      yearInput.value = '';
+      spendAmount.value = '';
+      spendNote.value = '';
+      resultDiv.style.display = 'none';
+      // 重置消费输入框（可选：不清空历史记录）
+    }
+
+    // ======== 消费记录功能 ========
+    recordSpendBtn.addEventListener('click', () => {
+      const amountText = spendAmount.value.trim();
+      const note = spendNote.value.trim();
+
+      if (!amountText) {
+        alert('请输入消费金额');
+        return;
+      }
+
+      let amount = parseFloat(amountText.replace(/,/g, ''));
+      if (isNaN(amount) || amount <= 0) {
+        alert('请输入有效的正数金额');
+        return;
+      }
+
+      const now = new Date();
+      const rec = {
+        time: now.toISOString(),
+        amount,
+        note
+      };
+
+      spendRecords.unshift(rec);
+      renderSpend();
+      persist();
+
+      // 清空输入（保留说明可选，这里清空）
+      spendAmount.value = '';
+      // spendNote.value = ''; // 保留说明便于连续录入
+    });
+
+    // ======== 红包 & 排行榜 ========
+    fakeGrantBtn.addEventListener('click', () => {
+      try {
+        const grant = (Math.random() * 100).toFixed(2);
+        redTotal += parseFloat(grant);
+        renderRedTotal();
+        persist();
+        fakeGrantBtn.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(0.95)' },
+          { transform: 'scale(1)' }
+        ], { duration: 250 });
+      } catch (e) {
+        console.warn('动画不支持，跳过');
+        redTotal += Math.random() * 100;
+        renderRedTotal();
+        persist();
+      }
+    });
+
+    // ======== 初始化 ========
+    renderSpend();
+    renderLeaderboard();
+    renderRedTotal();
+
+    // 可选：监听窗口关闭前保存（非必须）
+    window.addEventListener('beforeunload', persist);
+
+    console.log('✅ 滔搏时光旅程 Demo 已加载完成');
+  </script>
 </body>
 </html>
