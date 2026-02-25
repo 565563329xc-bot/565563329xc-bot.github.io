@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滔搏时光旅程 - 最小Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+            color: #333;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            overflow: hidden; /* For pseudo-element animation */
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(0,0,255,0.05) 0%, rgba(0,0,255,0) 70%);
+            animation: pulse 5s infinite ease-in-out;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            z-index: 0;
+        }
+        .container.active::before {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.3; }
+            100% { transform: scale(0.8) rotate(360deg); opacity: 0.8; }
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+        }
+
+        #startButton {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        #startButton:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        #displayArea {
+            min-height: 150px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            border: 1px solid #e9ecef;
+            line-height: 1.8;
+            transition: background-color 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        #displayArea.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #displayArea p {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        #displayArea strong {
+            color: #007bff;
+        }
+
+        .era-memory {
+            font-style: italic;
+            color: #6c757d;
+            border-left: 3px solid #007bff;
+            padding-left: 10px;
+            margin-left: 5px;
+        }
+
+        #shareBtn {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+        }
+
+        #shareBtn:hover {
+            background-color: #138496;
+            transform: translateY(-2px);
+        }
+
+        .footer-info {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .footer-info div {
+            flex: 1;
+            padding: 0 10px;
+            border-right: 1px solid #ccc;
+        }
+        .footer-info div:last-child {
+            border-right: none;
+        }
+        .footer-info h3 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 1.1em;
+        }
+        .footer-info ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        .footer-info li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .footer-info .rank-num {
+            background-color: #ffe0b2;
+            color: #fb8c00;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+        .footer-info .prize {
+            margin-left: auto;
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .footer-info .amount {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .info-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <h1>滔搏时光旅程 - 最小Demo</h1>
+        <p>点击按钮，体验您的专属滔搏时光隧道！</p>
+        <button id="startButton">开启时光旅程</button>
+        <div id="displayArea">
+            <p>等待开启您的独家记忆...</p>
+        </div>
+        <button id="shareBtn">分享到朋友圈/小红书</button>
+    </div>
+
+    <div class="footer-info">
+        <div>
+            <h3>全国集赞排行榜</h3>
+            <ul id="leaderboard">
+                <!-- 排行榜内容将由JS加载 -->
+            </ul>
+        </div>
+        <div>
+            <h3>已发放红包总金额</h3>
+            <p class="amount">￥<span id="totalRedPackets">0</span></p>
+            <p class="info-title">（制造紧迫感和从众心理）</p>
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据（真实项目会从数据库获取）
+        const mockUsers = {
+            "12345": { // 这是一个示例用户ID，实际项目中可能是手机号等
+                name: "张小明",
+                lastPurchaseDate: "2020年9月20日",
+                lastPurchaseItem: "Nike Air Max 270",
+                historicalData: [
+                    { year: 2020, event: "那一年，你还记得奥运会的延期，却点燃了居家运动的热情吗？" },
+                    { year: 2018, event: "世界杯鏖战正酣，绿茵场上的激情是否也曾是你生活的注脚？" },
+                    { year: 2015, event: "《疯狂的麦克斯》上映，废土美学是否也曾启发你的穿搭？" }
+                ]
+            },
+            "67890": {
+                name: "李红",
+                lastPurchaseDate: "2022年4月10日",
+                lastPurchaseItem: "Adidas Ultraboost 21",
+                historicalData: [
+                    { year: 2022, event: "冬季运动热潮来袭，你是否也爱上了冰雪运动？" },
+                    { year: 2021, event: "神舟十二号载人飞船成功发射，我们的征途是星辰大海！" }
+                ]
+            }
+            // 可以添加更多模拟用户数据
+        };
+
+        function simulateTimeTravel() {
+            const userId = "12345"; // Demo 固定一个用户ID，实际项目中可能通过扫码或输入获取
+            const user = mockUsers[userId];
+
+            if (!user) {
+                document.getElementById('displayArea').innerHTML = "<p>系统错误：未能找到用户数据。</p>";
+                return;
+            }
+
+            // 计算时间差
+            // 将 "2020年9月20日" 转换为 "2020/09/20" 格式以便JS的Date对象解析
+            const formattedDate = user.lastPurchaseDate.replace(/年/g, '/').replace(/月/g, '/').replace(/日/g, '');
+            const lastPurchaseDateTime = new Date(formattedDate);
+            const now = new Date();
+            const diffTime = Math.abs(now - lastPurchaseDateTime);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // 构建“时空隧道”文本
+            let timeTravelText = `
+                <p>欢迎回来，<strong>${user.name}</strong>！</p>
+                <p>距离你上一次在滔搏消费（<strong>${user.lastPurchaseDate}</strong>，购买了<strong>${user.lastPurchaseItem}</strong>），已经过去了<strong>${diffDays}</strong>天。</p>
+                <p>还记得那年陪你一起买鞋的人吗？那时...</p>
+            `;
+
+            // 添加时代记忆
+            user.historicalData.forEach(data => {
+                timeTravelText += `<p class="era-memory"><strong>${data.year}年：</strong> ${data.event}</p>`;
+            });
+
+            const displayArea = document.getElementById('displayArea');
+            displayArea.innerHTML = timeTravelText;
+            displayArea.classList.add('active'); // 激活内容显示动画
+            document.getElementById('mainContainer').classList.add('active'); // 激活容器动画
+            document.getElementById('shareBtn').style.display = 'block'; // 显示分享按钮
+            document.getElementById('startButton').style.display = 'none'; // 隐藏开始按钮
+
+        }
+
+        function shareToSocialMedia() {
+            // 模拟分享功能
+            // 实际可能生成带有用户ID和内容ID的动态链接
+            const shareLink = `https://565563329xc-bot.github.io/?contentId=${Math.random().toString(36).substring(7)}`;
+            alert(`
+            分享内容已准备就绪！
+            请将以下内容复制到您的朋友圈/小红书：
+
+            🎉 我的滔搏时光旅程，太有意思了！
+            #滔搏 #时空穿越 #我的运动时尚回忆
+            快点击链接，你也能拥有专属回忆：
+            ${shareLink}
+
+            (此为Demo模拟提示，无法实际跳转)
+            `);
+            console.log("模拟分享链接:", shareLink);
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('startButton').addEventListener('click', simulateTimeTravel);
+            document.getElementById('shareBtn').addEventListener('click', shareToSocialMedia);
+
+            // 模拟排行榜和红包数据显示
+            document.getElementById('leaderboard').innerHTML = `
+                <li><span class="rank-num">1</span> 王** (北京) - 999 赞 <span class="prize">￥1000</span></li>
+                <li><span class="rank-num">2</span> 李** (上海) - 876 赞 <span class="prize">￥500</span></li>
+                <li><span class="rank-num">3</span> 赵** (广州) - 750 赞 <span class="prize">￥200</span></li>
+                <li><span class="rank-num">4</span> 周** (深圳) - 620 赞 </li>
+                <li><span class="rank-num">5</span> 陈** (成都) - 580 赞 </li>
+            `;
+            document.getElementById('totalRedPackets').textContent = "128,500"; // 模拟总金额
+        });
+    </script>
+</body>
+</html>
