@@ -3,41 +3,38 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>滔搏时光旅程 - 科技感 Demo</title>
+  <title>滔搏时光旅程 - 2026春晚版</title>
   <style>
     :root {
-      --bg: #0e0e0e;
-      --card: #292929;
-      --accent: #00BFFF; /* 更改为科技感蓝色 */
+      --bg-dark: #001f3f; /* 深蓝色 */
+      --bg-light: #007bff; /* 浅蓝色 */
+      --accent: #00BFFF; /* 科技感蓝色 */
       --muted: #b0b3b5;
-      --glass: rgba(255, 255, 255, 0.1);
-      --hover: rgba(0, 191, 255, 0.3); /* 更改为科技感蓝色 */
+      --glass: rgba(255, 255, 255, 0.05);
     }
     body {
-      height: 100%;
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(180deg, #001f3f, #007bff); /* 修改为蓝色渐变 */
+      background: linear-gradient(180deg, var(--bg-dark), var(--bg-light));
       color: #e6eef6;
       overflow: hidden;
     }
     .wrap {
       max-width: 1200px;
-      margin: 28px auto;
+      margin: 20px auto;
       padding: 20px;
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr;
       gap: 18px;
     }
     .panel {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); /* 调整透明度 */
+      background: var(--glass);
       border-radius: 16px;
       padding: 20px;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8); /* 增加阴影 */
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(10px);
     }
     .hero {
-      grid-column: 1/-1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -45,14 +42,16 @@
     }
     h1 {
       margin: 0;
-      font-size: 24px;
-      letter-spacing: 0.6px;
+      font-size: 28px;
+      letter-spacing: 0.8px;
       text-align: center;
+      color: var(--accent);
     }
     p.lead {
       margin: 0;
       color: var(--muted);
       text-align: center;
+      font-size: 16px;
     }
     .controls {
       display: flex;
@@ -60,89 +59,63 @@
       margin-top: 14px;
       justify-content: center;
     }
-    input[type=number], input[type=text] {
+    input[type=number] {
       background: var(--glass);
-      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 12px;
       border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: inherit;
       outline: none;
       width: 180px;
       transition: background 0.3s, border 0.3s;
-      box-shadow: 0 0 5px var(--accent); /* 发光效果 */
     }
-    input[type=number]:focus, input[type=text]:focus {
-      background: var(--hover);
+    input[type=number]:focus {
       border-color: var(--accent);
     }
     button.btn {
-      background: linear-gradient(90deg, var(--accent), #34d399);
+      background: var(--accent);
       border: none;
       padding: 12px 16px;
       border-radius: 12px;
       color: #05212a;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 6px 18px rgba(52, 211, 153, 0.08);
-      letter-spacing: 0.5px;
+      box-shadow: 0 6px 18px rgba(52, 211, 153, 0.1);
       transition: transform 0.2s, box-shadow 0.2s;
-      filter: drop-shadow(0 0 10px var(--accent)); /* 增加按钮发光效果 */
     }
     button.btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(52, 211, 153, 0.1);
-    }
-    button.btn:active {
-      transform: scale(0.95);
+      box-shadow: 0 8px 30px rgba(52, 211, 153, 0.2);
     }
     .result {
-      margin-top: 18px;
+      margin-top: 20px;
       display: none;
-      border-top: 1px dashed rgba(255, 255, 255, 0.03);
       padding-top: 14px;
     }
-    .era-title {
+    .hero-message {
       font-size: 20px;
-      margin: 0 0 8px 0;
+      margin-bottom: 12px;
+      text-align: center;
     }
-    .era-desc {
-      color: var(--muted);
-      margin: 0 0 12px 0;
-    }
-    .era-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .gallery {
+    .video-container {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
       justify-content: center;
+      margin-top: 10px;
     }
-    .gallery img {
+    video {
       width: 100%;
-      height: auto;
-      max-width: 300px;
+      max-width: 600px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    footer {
-      grid-column: 1/-1;
-      margin-top: 12px;
+    .social-share {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .footer {
+      margin-top: 20px;
       text-align: center;
       color: var(--muted);
       font-size: 13px;
-    }
-    @media (max-width: 980px) {
-      .wrap {
-        grid-template-columns: 1fr; 
-        padding: 12px;
-      }
-      .hero {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
@@ -150,112 +123,69 @@
   <div class="wrap">
     <div class="hero panel">
       <h1>滔搏时光旅程</h1>
-      <p class="lead">输入想回到的年份，点击“开启时光”来探索当年的流行文化与记忆。</p>
+      <p class="lead">欢迎回来，<span id="userName">用户</span>！</p>
+      <p class="lead"><span id="daysSincePurchase">距离您上一次消费，已经过去了XX天。</span></p>
+      <p class="hero-message">还记得那年陪你一起买鞋的人吗？</p>
 
       <div class="controls">
-        <input id="yearInput" type="number" placeholder="输入年份 (如 1990)" min="1900" max="2023" />
-        <button class="btn" id="startBtn">开启时光</button>
+        <input id="yearInput" type="number" placeholder="输入年份 (如 1990)" min="1900" max="2026" />
+        <button class="btn" id="startBtn">生成时空隧道</button>
       </div>
 
       <div class="result" id="result">
-        <div class="era-title" id="eraTitle">--</div>
-        <p class="era-desc" id="eraDescription"></p>
-        <div class="era-grid">
-          <div>
-            <h3 style="margin: 10px 0 6px 0;">流行音乐</h3>
-            <p id="musicInfo" class="small-muted"></p>
-
-            <h3 style="margin: 10px 0 6px 0;">经典电影</h3>
-            <p id="movieInfo" class="small-muted"></p>
-
-            <h3 style="margin: 10px 0 6px 0;">时尚风格</h3>
-            <p id="fashionInfo" class="small-muted"></p>
-          </div>
-          <div class="gallery" id="gallery">
-            <video id="videoPlaceholder" width="100%" controls style="border-radius: 12px; display: none;">
-              <source src="https://r2.xsimple-r2.com/files/5fe4182a3805a0d1590eab15b9c26314.mp4" type="video/mp4"> <!-- 更新为新视频链接 -->
-              您的浏览器不支持 HTML5 视频标签。
-            </video>
-          </div>
+        <h2>您的专属短视频:</h2>
+        <div class="video-container">
+          <video id="videoDisplay" controls style="display:none;">
+            <source src="https://r2.xsimple-r2.com/files/5fe4182a3805a0d1590eab15b9c26314.mp4" type="video/mp4">
+            您的浏览器不支持 HTML5 视频标签。
+          </video>
+        </div>
+        <div class="social-share">
+          <p>分享您的视频，邀请朋友集赞！</p>
+          <button class="btn" id="shareBtn">分享至微信</button>
         </div>
       </div>
     </div>
 
-    <footer>提示：将此文件命名为 topbo-timetravel-demo.html 并放入仓库根目录。访问：https://你的用户名.github.io/topbo-timetravel-demo.html</footer>
+    <footer class="footer">提示：将此文件命名为 topbo-timetravel-demo.html 并放入仓库根目录。访问：https://你的用户名.github.io/topbo-timetravel-demo.html</footer>
   </div>
 
   <script>
-    const eraData = {
-      "1980": {
-        title: "1980年代",
-        description: "MTV 时代，合成器音乐与华丽的造型流行。",
-        music: "迈克尔·杰克逊、麦当娜等",
-        movie: "《回到未来》、《ET》",
-        fashion: "夸张的发型、荧光服装、超大肩垫",
-      },
-      "1990": {
-        title: "1990年代",
-        description: "网络萌芽，流行文化更加多元。",
-        music: "流行、嘻哈与摇滚并存",
-        movie: "《阿甘正传》、《黑客帝国》",
-        fashion: "宽松牛仔裤、运动品牌流行",
-      },
-      "2000": {
-        title: "2000年代",
-        description: "互联网普及，诺基亚和MP3时代。",
-        music: "数字音乐兴起",
-        movie: "《哈利波特》、《指环王》",
-        fashion: "低腰牛仔、运动休闲",
-      },
-      "2010": {
-        title: "2010年代",
-        description: "移动互联网与社交媒体改变生活方式。",
-        music: "流媒体主导，很多独立音乐流行",
-        movie: "超级英雄电影崛起",
-        fashion: "简约与混搭并存",
-      }
-    };
+    // 模拟用户数据
+    const userName = "张三";  // 用户姓名
+    const daysSince = 30; // 距离上次消费的天数
+
+    // 更新用户信息
+    document.getElementById("userName").textContent = userName;
+    document.getElementById("daysSincePurchase").textContent = `距离您上一次消费，已经过去了${daysSince}天。`;
 
     const yearInput = document.getElementById('yearInput');
     const startBtn = document.getElementById('startBtn');
     const resultDiv = document.getElementById('result');
-    const eraTitle = document.getElementById('eraTitle');
-    const eraDescription = document.getElementById('eraDescription');
-    const musicInfo = document.getElementById('musicInfo');
-    const movieInfo = document.getElementById('movieInfo');
-    const fashionInfo = document.getElementById('fashionInfo');
-    const gallery = document.getElementById('gallery');
-    const videoPlaceholder = document.getElementById('videoPlaceholder');
+    const videoDisplay = document.getElementById('videoDisplay');
 
-    startBtn.addEventListener('click', travelInTime);
+    startBtn.addEventListener('click', generateTunnel);
     
-    function travelInTime() {
+    function generateTunnel() {
       const val = parseInt(yearInput.value);
-      if (!val || val < 1900 || val > 2023) {
-        alert('请输入 1900-2023 之间的有效年份');
+      if (!val || val < 1900 || val > 2026) {
+        alert('请输入 1900-2026 之间的有效年份');
         return;
       }
 
-      const decade = Math.floor(val / 10) * 10;
-      const era = eraData[decade] || {
-        title: `${decade}年代`,
-        description: "该年代的资料暂缺，欢迎补充。",
-        music: "暂无",
-        movie: "暂无",
-        fashion: "暂无",
-      };
+      // 这里生成专属短视频的逻辑
+      // （模拟生成 或 调用后台接口）
 
-      eraTitle.textContent = era.title + " （目标年：" + val + "）";
-      eraDescription.textContent = era.description;
-      musicInfo.textContent = era.music;
-      movieInfo.textContent = era.movie;
-      fashionInfo.textContent = era.fashion;
-
-      // 显示视频占位符
-      videoPlaceholder.style.display = 'block';
-      videoPlaceholder.play();
+      // 显示短视频（模拟简称为“你的专属短视频”）
+      videoDisplay.style.display = 'block';
+      videoDisplay.play();
       resultDiv.style.display = 'block';
     }
+
+    document.getElementById('shareBtn').addEventListener('click', function() {
+      alert('视频已同步至您的微信，快去分享吧！');
+      // 这里可以添加生成二维码的逻辑
+    });
   </script>
 </body>
 </html>
